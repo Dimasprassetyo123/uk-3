@@ -9,13 +9,13 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Trevela 2</title>
+    <title>Trevela Haji Dan Umroh</title>
     <meta
         content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
         name="viewport" />
     <link
         rel="icon"
-        href="../../tp-ad/assets/img/kaiadmin/favicon.ico"
+        href="../../../storages/gambar1-removebg-preview.png"
         type="image/x-icon" />
 
     <!-- Fonts and icons -->

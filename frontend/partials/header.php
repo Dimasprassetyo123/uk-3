@@ -4,12 +4,12 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - NewBiz Bootstrap Template</title>
+  <title>Trevela Haji Dan Umroh</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="../storages/gambar1-removebg-preview.png" rel="icon">
   <link href="./template_user/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->

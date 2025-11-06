@@ -67,7 +67,7 @@ include 'partials/navbar.php';
             <h1 class="display-3 fw-bold mb-4">Perjalanan Suci Bersama Kami</h1>
             <p class="lead mb-4 fs-5">Kami melayani paket Haji & Umroh terpercaya dengan fasilitas terbaik dan pembimbing berpengalaman.</p>
             <div class="d-flex flex-wrap gap-3">
-              <a href="#about" class="btn btn-primary btn-lg rounded-pill px-4 shadow btn-get-started">Lihat Paket Kami</a>
+              <a href="index1.php" class="btn btn-primary btn-lg rounded-pill px-4 shadow btn-get-started">Lihat Paket Kami</a>
               <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn btn-outline-light btn-lg rounded-pill px-4 btn-watch-video d-flex align-items-center gap-2">
                 <i class="bi bi-play-circle fs-4"></i><span>Tonton Video</span>
               </a>
@@ -362,5 +362,4 @@ include 'partials/footer.php';
 include 'partials/script.php';
 ?>
 </body>
-
 </html>
