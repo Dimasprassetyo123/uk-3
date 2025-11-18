@@ -13,7 +13,7 @@ $totalPaket = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total F
 $totalKeberangkatan = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM keberangkatan"))['total'];
 
 // Hitung statistik tambahan
-$pembayaranSukses = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM payments WHERE status = 'success'"))['total'];
+$pembayaranSukses = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM payments WHERE status = 'confirmed'"))['total'];
 $pembayaranPending = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM payments WHERE status = 'pending'"))['total'];
 
 // Ambil 5 aktivitas log terbaru hanya untuk admin
@@ -34,114 +34,98 @@ if ($_SESSION['role_name'] === 'admin') {
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-4 pt-3">
             <div>
-                <h2 class="mb-1">Dashboard <?= ucfirst($_SESSION['role_name']) ?></h2>
-                <p class="text-muted mb-0">Selamat datang, <?= $_SESSION['full_name'] ?>!</p>
+                <h2 class="mb-1 fw-bold"><i class="fas fa-tachometer-alt me-2 text-primary"></i>Dashboard <?= ucfirst($_SESSION['role_name']) ?></h2>
+                <p class="text-muted mb-0"><i class="fas fa-user me-1"></i> Selamat datang, <?= $_SESSION['full_name'] ?>!</p>
             </div>
             <div class="text-end">
-                <span class="badge bg-primary"><?= date('l, d F Y') ?></span>
+                <span class="badge bg-primary-subtle text-primary p-2">
+                    <i class="fas fa-calendar-day me-1"></i><?= date('l, d F Y') ?>
+                </span>
             </div>
         </div>
 
         <!-- Statistik Utama -->
         <div class="row mb-4">
             <div class="col-xl-2 col-md-4 col-sm-6 mb-3">
-                <div class="card stat-card bg-primary text-white shadow-hover">
-                    <div class="card-body">
+                <div class="card stat-card border-0 shadow-sm h-100">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 class="card-title">Total Jamaah</h5>
-                                <h2 class="mb-0"><?= $totalJamaah ?></h2>
-                            </div>
-                            <div class="stat-icon">
-                                <i class="fas fa-users fa-2x"></i>
+                                <p class="card-title text-muted mb-1"><i class="fas fa-users me-1 text-primary"></i> Total Jamaah</p>
+                                <h2 class="mb-0 fw-bold"><?= $totalJamaah ?></h2>
                             </div>
                         </div>
-                        <small class="opacity-75"><i class="fas fa-arrow-up text-success me-1"></i> Data terupdate</small>
+                        <small class="text-muted"><i class="fas fa-circle text-success me-1" style="font-size: 8px;"></i> Data terupdate</small>
                     </div>
                 </div>
             </div>
 
             <div class="col-xl-2 col-md-4 col-sm-6 mb-3">
-                <div class="card stat-card bg-success text-white shadow-hover">
-                    <div class="card-body">
+                <div class="card stat-card border-0 shadow-sm h-100">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 class="card-title">Pendaftaran</h5>
-                                <h2 class="mb-0"><?= $totalPendaftaran ?></h2>
-                            </div>
-                            <div class="stat-icon">
-                                <i class="fas fa-file-signature fa-2x"></i>
+                                <p class="card-title text-muted mb-1"><i class="fas fa-file-signature me-1 text-success"></i> Pendaftaran</p>
+                                <h2 class="mb-0 fw-bold"><?= $totalPendaftaran ?></h2>
                             </div>
                         </div>
-                        <small class="opacity-75">Total pendaftar</small>
+                        <small class="text-muted"><i class="fas fa-user-plus me-1"></i> Total pendaftar</small>
                     </div>
                 </div>
             </div>
 
             <div class="col-xl-2 col-md-4 col-sm-6 mb-3">
-                <div class="card stat-card bg-info text-white shadow-hover">
-                    <div class="card-body">
+                <div class="card stat-card border-0 shadow-sm h-100">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 class="card-title">Pembayaran</h5>
-                                <h2 class="mb-0"><?= $totalPembayaran ?></h2>
-                            </div>
-                            <div class="stat-icon">
-                                <i class="fas fa-credit-card fa-2x"></i>
+                                <p class="card-title text-muted mb-1"><i class="fas fa-credit-card me-1 text-info"></i> Pembayaran</p>
+                                <h2 class="mb-0 fw-bold"><?= $totalPembayaran ?></h2>
                             </div>
                         </div>
-                        <small class="opacity-75">Total transaksi</small>
+                        <small class="text-muted"><i class="fas fa-exchange-alt me-1"></i> Total transaksi</small>
                     </div>
                 </div>
             </div>
 
             <div class="col-xl-2 col-md-4 col-sm-6 mb-3">
-                <div class="card stat-card bg-warning text-white shadow-hover">
-                    <div class="card-body">
+                <div class="card stat-card border-0 shadow-sm h-100">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 class="card-title">Paket Umrah</h5>
-                                <h2 class="mb-0"><?= $totalPaket ?></h2>
-                            </div>
-                            <div class="stat-icon">
-                                <i class="fas fa-box fa-2x"></i>
+                                <p class="card-title text-muted mb-1"><i class="fas fa-box me-1 text-warning"></i> Paket Umrah</p>
+                                <h2 class="mb-0 fw-bold"><?= $totalPaket ?></h2>
                             </div>
                         </div>
-                        <small class="opacity-75">Paket tersedia</small>
+                        <small class="text-muted"><i class="fas fa-cube me-1"></i> Paket tersedia</small>
                     </div>
                 </div>
             </div>
 
             <div class="col-xl-2 col-md-4 col-sm-6 mb-3">
-                <div class="card stat-card bg-danger text-white shadow-hover">
-                    <div class="card-body">
+                <div class="card stat-card border-0 shadow-sm h-100">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 class="card-title">Keberangkatan</h5>
-                                <h2 class="mb-0"><?= $totalKeberangkatan ?></h2>
-                            </div>
-                            <div class="stat-icon">
-                                <i class="fas fa-plane-departure fa-2x"></i>
+                                <p class="card-title text-muted mb-1"><i class="fas fa-plane-departure me-1 text-danger"></i> Keberangkatan</p>
+                                <h2 class="mb-0 fw-bold"><?= $totalKeberangkatan ?></h2>
                             </div>
                         </div>
-                        <small class="opacity-75">Jadwal berangkat</small>
+                        <small class="text-muted"><i class="fas fa-calendar-check me-1"></i> Jadwal berangkat</small>
                     </div>
                 </div>
             </div>
 
             <div class="col-xl-2 col-md-4 col-sm-6 mb-3">
-                <div class="card stat-card bg-secondary text-white shadow-hover">
-                    <div class="card-body">
+                <div class="card stat-card border-0 shadow-sm h-100">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 class="card-title">Sukses</h5>
-                                <h2 class="mb-0"><?= $pembayaranSukses ?></h2>
-                            </div>
-                            <div class="stat-icon">
-                                <i class="fas fa-check-circle fa-2x"></i>
+                                <p class="card-title text-muted mb-1"><i class="fas fa-check-circle me-1 text-secondary"></i> Sukses</p>
+                                <h2 class="mb-0 fw-bold"><?= $pembayaranSukses ?></h2>
                             </div>
                         </div>
-                        <small class="opacity-75">Pembayaran sukses</small>
+                        <small class="text-muted"><i class="fas fa-thumbs-up me-1"></i> Pembayaran sukses</small>
                     </div>
                 </div>
             </div>
@@ -151,10 +135,10 @@ if ($_SESSION['role_name'] === 'admin') {
             <?php if ($_SESSION['role_name'] === 'admin'): ?>
                 <!-- Aktivitas Terbaru - Hanya untuk Admin -->
                 <div class="col-lg-8 mb-4">
-                    <div class="card shadow border-0">
-                        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Aktivitas Terbaru</h5>
-                            <a href="../user_activity/index.php" class="btn btn-sm btn-outline-light">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-history me-2 text-primary"></i>Aktivitas Terbaru</h5>
+                            <a href="../user_activity/index.php" class="btn btn-sm btn-outline-primary">
                                 <i class="fas fa-external-link-alt me-1"></i>Selengkapnya
                             </a>
                         </div>
@@ -163,12 +147,12 @@ if ($_SESSION['role_name'] === 'admin') {
                                 <table class="table table-hover mb-0">
                                     <thead class="table-light">
                                         <tr>
-                                            <th width="50">No</th>
-                                            <th>User</th>
-                                            <th>Aksi</th>
-                                            <th>Objek</th>
-                                            <th>Pesan</th>
-                                            <th>Waktu</th>
+                                            <th width="50" class="border-top-0"><i class="fas fa-hashtag"></i></th>
+                                            <th class="border-top-0"><i class="fas fa-user me-1"></i> User</th>
+                                            <th class="border-top-0"><i class="fas fa-cog me-1"></i> Aksi</th>
+                                            <th class="border-top-0"><i class="fas fa-cube me-1"></i> Objek</th>
+                                            <th class="border-top-0"><i class="fas fa-comment me-1"></i> Pesan</th>
+                                            <th class="border-top-0"><i class="fas fa-clock me-1"></i> Waktu</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -184,7 +168,7 @@ if ($_SESSION['role_name'] === 'admin') {
                                                                     <?= strtoupper(substr($log['full_name'] ?? 'U', 0, 1)) ?>
                                                                 </span>
                                                             </div>
-                                                            <?= htmlspecialchars($log['full_name'] ?? '-') ?>
+                                                            <span class="fw-medium"><?= htmlspecialchars($log['full_name'] ?? '-') ?></span>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -193,23 +177,32 @@ if ($_SESSION['role_name'] === 'admin') {
                                                             <?= $log['action'] == 'UPDATE' ? 'bg-warning' : '' ?>
                                                             <?= $log['action'] == 'DELETE' ? 'bg-danger' : '' ?>
                                                             <?= !in_array($log['action'], ['CREATE', 'UPDATE', 'DELETE']) ? 'bg-primary' : '' ?>
-                                                        "><?= $log['action'] ?></span>
-                                                    </td>
-                                                    <td>
-                                                        <small>
-                                                            <strong><?= $log['object_type'] ?></strong><br>
-                                                            ID: <?= $log['object_id'] ?>
-                                                        </small>
-                                                    </td>
-                                                    <td>
-                                                        <span class="log-message" title="<?= htmlspecialchars($log['message']) ?>">
-                                                            <?= strlen($log['message']) > 30 ? substr(htmlspecialchars($log['message']), 0, 30) . '...' : htmlspecialchars($log['message']) ?>
+                                                        ">
+                                                            <i class="fas 
+                                                                <?= $log['action'] == 'CREATE' ? 'fa-plus-circle' : '' ?>
+                                                                <?= $log['action'] == 'UPDATE' ? 'fa-edit' : '' ?>
+                                                                <?= $log['action'] == 'DELETE' ? 'fa-trash-alt' : '' ?>
+                                                                <?= !in_array($log['action'], ['CREATE', 'UPDATE', 'DELETE']) ? 'fa-cog' : '' ?>
+                                                            me-1"></i>
+                                                            <?= $log['action'] ?>
                                                         </span>
                                                     </td>
                                                     <td>
                                                         <small class="text-muted">
-                                                            <?= date('d/m/Y', strtotime($log['created_at'])) ?><br>
-                                                            <strong><?= date('H:i', strtotime($log['created_at'])) ?></strong>
+                                                            <strong class="d-block"><?= $log['object_type'] ?></strong>
+                                                            <i class="fas fa-id-card me-1"></i>ID: <?= $log['object_id'] ?>
+                                                        </small>
+                                                    </td>
+                                                    <td>
+                                                        <span class="log-message text-truncate d-inline-block" style="max-width: 150px;" title="<?= htmlspecialchars($log['message']) ?>">
+                                                            <i class="fas fa-comment-dots me-1 text-muted"></i>
+                                                            <?= htmlspecialchars($log['message']) ?>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <small class="text-muted">
+                                                            <i class="fas fa-calendar me-1"></i><?= date('d/m/Y', strtotime($log['created_at'])) ?><br>
+                                                            <i class="fas fa-clock me-1"></i><strong><?= date('H:i', strtotime($log['created_at'])) ?></strong>
                                                         </small>
                                                     </td>
                                                 </tr>
@@ -232,41 +225,41 @@ if ($_SESSION['role_name'] === 'admin') {
                 <!-- Quick Actions & Status untuk Admin -->
                 <div class="col-lg-4 mb-4">
                     <!-- Quick Actions -->
-                    <div class="card shadow border-0 mb-4">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-bolt me-2 text-primary"></i>Quick Actions</h5>
                         </div>
                         <div class="card-body">
                             <div class="d-grid gap-2">
-                                <a href="../data jamaah/index.php" class="btn btn-outline-primary text-start">
-                                    <i class="fas fa-users me-2"></i>Kelola Jamaah
+                                <a href="../data jamaah/index.php" class="btn btn-light text-start py-2 border">
+                                    <i class="fas fa-users me-2 text-primary"></i>Kelola Jamaah
                                 </a>
-                                <a href="../data paket/index.php" class="btn btn-outline-success text-start">
-                                    <i class="fas fa-box me-2"></i>Kelola Paket
+                                <a href="../data paket/index.php" class="btn btn-light text-start py-2 border">
+                                    <i class="fas fa-box me-2 text-success"></i>Kelola Paket
                                 </a>
-                                <a href="../data pembayaran/index.php" class="btn btn-outline-warning text-start">
-                                    <i class="fas fa-credit-card me-2"></i>Lihat Pembayaran
+                                <a href="../data pembayaran/index.php" class="btn btn-light text-start py-2 border">
+                                    <i class="fas fa-credit-card me-2 text-warning"></i>Lihat Pembayaran
                                 </a>
-                                <a href="../data berangkat/index.php" class="btn btn-outline-info text-start">
-                                    <i class="fas fa-plane-departure me-2"></i>Data Keberangkatan
+                                <a href="../data berangkat/index.php" class="btn btn-light text-start py-2 border">
+                                    <i class="fas fa-plane-departure me-2 text-info"></i>Data Keberangkatan
                                 </a>
-                                <a href="../user/index.php" class="btn btn-outline-secondary text-start">
-                                    <i class="fas fa-user-cog me-2"></i>Kelola Users
+                                <a href="../user/index.php" class="btn btn-light text-start py-2 border">
+                                    <i class="fas fa-user-cog me-2 text-secondary"></i>Kelola Users
                                 </a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Status Pembayaran -->
-                    <div class="card shadow border-0">
-                        <div class="card-header bg-info text-white">
-                            <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Status Pembayaran</h5>
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-chart-pie me-2 text-info"></i>Status Pembayaran</h5>
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between mb-1">
-                                    <span>Sukses</span>
-                                    <span><?= $pembayaranSukses ?></span>
+                                    <span class="fw-medium"><i class="fas fa-check-circle text-success me-1"></i>Sukses</span>
+                                    <span class="fw-bold"><?= $pembayaranSukses ?></span>
                                 </div>
                                 <div class="progress" style="height: 8px;">
                                     <div class="progress-bar bg-success" style="width: <?= $totalPembayaran > 0 ? ($pembayaranSukses / $totalPembayaran * 100) : 0 ?>%"></div>
@@ -274,15 +267,15 @@ if ($_SESSION['role_name'] === 'admin') {
                             </div>
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between mb-1">
-                                    <span>Pending</span>
-                                    <span><?= $pembayaranPending ?></span>
+                                    <span class="fw-medium"><i class="fas fa-clock text-warning me-1"></i>Pending</span>
+                                    <span class="fw-bold"><?= $pembayaranPending ?></span>
                                 </div>
                                 <div class="progress" style="height: 8px;">
                                     <div class="progress-bar bg-warning" style="width: <?= $totalPembayaran > 0 ? ($pembayaranPending / $totalPembayaran * 100) : 0 ?>%"></div>
                                 </div>
                             </div>
-                            <div class="text-center mt-3">
-                                <small class="text-muted">Total: <?= $totalPembayaran ?> transaksi</small>
+                            <div class="text-center mt-3 pt-2 border-top">
+                                <small class="text-muted"><i class="fas fa-chart-bar me-1"></i>Total: <?= $totalPembayaran ?> transaksi</small>
                             </div>
                         </div>
                     </div>
@@ -292,60 +285,91 @@ if ($_SESSION['role_name'] === 'admin') {
                 <!-- Layout untuk User Biasa -->
                 <div class="col-lg-8 mb-4">
                     <!-- Informasi untuk User -->
-                    <div class="card shadow border-0">
-                        <div class="card-header bg-success text-white">
-                            <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Informasi Umrah</h5>
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-info-circle me-2 text-success"></i>Informasi Umrah</h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h6><i class="fas fa-check-circle text-success me-2"></i>Pendaftaran Berhasil</h6>
-                                    <p class="text-muted mb-3">Total pendaftaran yang telah Anda lakukan: <strong><?= $totalPendaftaran ?></strong></p>
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                                            <i class="fas fa-check-circle text-success"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1"><i class="fas fa-file-signature me-1 text-success"></i> Pendaftaran Berhasil</h6>
+                                            <p class="text-muted mb-0">Total pendaftaran yang telah Anda lakukan: <strong><?= $totalPendaftaran ?></strong></p>
+                                        </div>
+                                    </div>
 
-                                    <h6><i class="fas fa-credit-card text-info me-2"></i>Status Pembayaran</h6>
-                                    <p class="text-muted">
-                                        Sukses: <strong><?= $pembayaranSukses ?></strong> |
-                                        Pending: <strong><?= $pembayaranPending ?></strong>
-                                    </p>
+                                    <div class="d-flex align-items-start">
+                                        <div class="bg-info bg-opacity-10 p-2 rounded me-3">
+                                            <i class="fas fa-credit-card text-info"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1"><i class="fas fa-money-check me-1 text-info"></i> Status Pembayaran</h6>
+                                            <p class="text-muted mb-0">
+                                                <i class="fas fa-check text-success me-1"></i>Sukses: <strong><?= $pembayaranSukses ?></strong><br>
+                                                <i class="fas fa-clock text-warning me-1"></i>Pending: <strong><?= $pembayaranPending ?></strong>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <h6><i class="fas fa-plane text-warning me-2"></i>Keberangkatan</h6>
-                                    <p class="text-muted mb-3">Jadwal keberangkatan tersedia: <strong><?= $totalKeberangkatan ?></strong></p>
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="bg-warning bg-opacity-10 p-2 rounded me-3">
+                                            <i class="fas fa-plane text-warning"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1"><i class="fas fa-plane-departure me-1 text-warning"></i> Keberangkatan</h6>
+                                            <p class="text-muted mb-0">Jadwal keberangkatan tersedia: <strong><?= $totalKeberangkatan ?></strong></p>
+                                        </div>
+                                    </div>
 
-                                    <h6><i class="fas fa-box text-primary me-2"></i>Paket Tersedia</h6>
-                                    <p class="text-muted">Total paket umrah: <strong><?= $totalPaket ?></strong></p>
+                                    <div class="d-flex align-items-start">
+                                        <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                                            <i class="fas fa-box text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1"><i class="fas fa-cubes me-1 text-primary"></i> Paket Tersedia</h6>
+                                            <p class="text-muted mb-0">Total paket umrah: <strong><?= $totalPaket ?></strong></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Panduan Cepat -->
-                    <div class="card shadow border-0 mt-4">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-play-circle me-2"></i>Mulai Pendaftaran</h5>
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-play-circle me-2 text-primary"></i>Mulai Pendaftaran</h5>
                         </div>
                         <div class="card-body">
-                            <p class="mb-3">Ikuti langkah-langkah berikut untuk mendaftar umrah:</p>
-                            <ol class="list-group list-group-numbered">
-                                <li class="list-group-item d-flex justify-content-between align-items-start border-0">
-                                    <div class="ms-2 me-auto">
-                                        <div class="fw-bold">Pilih Paket</div>
-                                        Pilih paket umrah yang sesuai dengan kebutuhan Anda
+                            <p class="mb-3"><i class="fas fa-info-circle me-1 text-primary"></i> Ikuti langkah-langkah berikut untuk mendaftar umrah:</p>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                    <span class="badge bg-primary rounded-circle me-3"><i class="fas fa-1 text-white"></i></span>
+                                    <div>
+                                        <h6 class="fw-bold mb-1"><i class="fas fa-search me-1 text-primary"></i> Pilih Paket</h6>
+                                        <p class="text-muted mb-0">Pilih paket umrah yang sesuai dengan kebutuhan Anda</p>
                                     </div>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-start border-0">
-                                    <div class="ms-2 me-auto">
-                                        <div class="fw-bold">Isi Form Pendaftaran</div>
-                                        Lengkapi data diri dan dokumen yang diperlukan
+                                </div>
+                                <div class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                    <span class="badge bg-primary rounded-circle me-3"><i class="fas fa-2 text-white"></i></span>
+                                    <div>
+                                        <h6 class="fw-bold mb-1"><i class="fas fa-edit me-1 text-primary"></i> Isi Form Pendaftaran</h6>
+                                        <p class="text-muted mb-0">Lengkapi data diri dan dokumen yang diperlukan</p>
                                     </div>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-start border-0">
-                                    <div class="ms-2 me-auto">
-                                        <div class="fw-bold">Konfirmasi Pembayaran</div>
-                                        Lakukan pembayaran dan upload bukti transfer
+                                </div>
+                                <div class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                    <span class="badge bg-primary rounded-circle me-3"><i class="fas fa-3 text-white"></i></span>
+                                    <div>
+                                        <h6 class="fw-bold mb-1"><i class="fas fa-money-bill-wave me-1 text-primary"></i> Konfirmasi Pembayaran</h6>
+                                        <p class="text-muted mb-0">Lakukan pembayaran dan upload bukti transfer</p>
                                     </div>
-                                </li>
-                            </ol>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -353,52 +377,52 @@ if ($_SESSION['role_name'] === 'admin') {
                 <!-- Quick Actions untuk User -->
                 <div class="col-lg-4 mb-4">
                     <!-- Quick Actions -->
-                    <div class="card shadow border-0 mb-4">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-bolt me-2 text-primary"></i>Quick Actions</h5>
                         </div>
                         <div class="card-body">
                             <div class="d-grid gap-2">
-                                <a href="../pendaftaran/index.php" class="btn btn-outline-success text-start">
-                                    <i class="fas fa-file-signature me-2"></i>Pendaftaran Baru
+                                <a href="../pendaftaran/index.php" class="btn btn-light text-start py-2 border">
+                                    <i class="fas fa-file-signature me-2 text-success"></i>Pendaftaran Baru
                                 </a>
-                                <a href="../data jamaah/index.php" class="btn btn-outline-primary text-start">
-                                    <i class="fas fa-users me-2"></i>Data Jamaah
+                                <a href="../data jamaah/index.php" class="btn btn-light text-start py-2 border">
+                                    <i class="fas fa-users me-2 text-primary"></i>Data Jamaah
                                 </a>
-                                <a href="../data paket/index.php" class="btn btn-outline-info text-start">
-                                    <i class="fas fa-box me-2"></i>Lihat Paket
+                                <a href="../data paket/index.php" class="btn btn-light text-start py-2 border">
+                                    <i class="fas fa-box me-2 text-info"></i>Lihat Paket
                                 </a>
-                                <a href="../data pembayaran/index.php" class="btn btn-outline-warning text-start">
-                                    <i class="fas fa-credit-card me-2"></i>Pembayaran
+                                <a href="../data pembayaran/index.php" class="btn btn-light text-start py-2 border">
+                                    <i class="fas fa-credit-card me-2 text-warning"></i>Pembayaran
                                 </a>
-                                <a href="../data berangkat/index.php" class="btn btn-outline-secondary text-start">
-                                    <i class="fas fa-plane-departure me-2"></i>Jadwal Berangkat
+                                <a href="../data berangkat/index.php" class="btn btn-light text-start py-2 border">
+                                    <i class="fas fa-plane-departure me-2 text-secondary"></i>Jadwal Berangkat
                                 </a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Status Ringkas -->
-                    <div class="card shadow border-0">
-                        <div class="card-header bg-info text-white">
-                            <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Statistik Ringkas</h5>
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-chart-bar me-2 text-info"></i>Statistik Ringkas</h5>
                         </div>
                         <div class="card-body">
                             <div class="list-group list-group-flush">
-                                <div class="list-group-item d-flex justify-content-between align-items-center border-0">
-                                    Jamaah Terdaftar
+                                <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span><i class="fas fa-users me-2 text-primary"></i>Jamaah Terdaftar</span>
                                     <span class="badge bg-primary rounded-pill"><?= $totalJamaah ?></span>
                                 </div>
-                                <div class="list-group-item d-flex justify-content-between align-items-center border-0">
-                                    Pendaftaran
+                                <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span><i class="fas fa-file-signature me-2 text-success"></i>Pendaftaran</span>
                                     <span class="badge bg-success rounded-pill"><?= $totalPendaftaran ?></span>
                                 </div>
-                                <div class="list-group-item d-flex justify-content-between align-items-center border-0">
-                                    Pembayaran Sukses
+                                <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span><i class="fas fa-check-circle me-2 text-success"></i>Pembayaran Sukses</span>
                                     <span class="badge bg-success rounded-pill"><?= $pembayaranSukses ?></span>
                                 </div>
-                                <div class="list-group-item d-flex justify-content-between align-items-center border-0">
-                                    Paket Tersedia
+                                <div class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span><i class="fas fa-box me-2 text-warning"></i>Paket Tersedia</span>
                                     <span class="badge bg-warning rounded-pill"><?= $totalPaket ?></span>
                                 </div>
                             </div>
@@ -443,12 +467,13 @@ if ($_SESSION['role_name'] === 'admin') {
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
     }
 
-    .shadow-hover {
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
     .stat-card .stat-icon {
         opacity: 0.8;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover .stat-icon {
+        transform: scale(1.1);
     }
 
     /* Table styling */
@@ -476,11 +501,6 @@ if ($_SESSION['role_name'] === 'admin') {
     /* Card header styling */
     .card-header {
         border-radius: 12px 12px 0 0 !important;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-    }
-
-    .btn-outline-light:hover {
-        background-color: rgba(255, 255, 255, 0.1);
     }
 
     /* List group styling */
@@ -488,6 +508,41 @@ if ($_SESSION['role_name'] === 'admin') {
         border: none;
         padding: 0.75rem 0;
         background: transparent;
+    }
+
+    /* Badge styling */
+    .badge.rounded-circle {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Button styling */
+    .btn-light {
+        transition: all 0.2s ease;
+    }
+
+    .btn-light:hover {
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+        transform: translateY(-1px);
+    }
+
+    /* Progress bar styling */
+    .progress {
+        border-radius: 4px;
+    }
+
+    /* Ikon styling */
+    .fas, .fab {
+        transition: transform 0.2s ease;
+    }
+
+    .btn:hover .fas,
+    .btn:hover .fab {
+        transform: scale(1.1);
     }
 
     /* Responsive design */

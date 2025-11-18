@@ -12,7 +12,7 @@
         position: fixed;
         bottom: 0;
         right: 0;
-        width: 83.4%;
+        width: 90.4%;
         background: #fff;
         border-top: 1px solid #ddd;
         padding: 15px 20px;

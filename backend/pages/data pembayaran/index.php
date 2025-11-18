@@ -27,11 +27,32 @@ $result = mysqli_query($conn, $query);
                 </h5>
             </div>
         </div>
+        <!-- DataTable CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+
+        <!-- jQuery (jika belum ada) -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+        <!-- DataTable JS -->
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+        <!-- Buttons -->
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
         <!-- Body -->
         <div class="card shadow-sm border-0 rounded-3">
             <div class="card-body p-4">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover mb-0 align-middle text-center">
+                    <table id="paymentTable" class="table table-bordered table-hover mb-0 align-middle text-center">
+
                         <thead class="table-dark">
                             <tr>
                                 <th width="5%">No</th>
@@ -67,11 +88,11 @@ $result = mysqli_query($conn, $query);
                                         <td>
                                             <?php if ($p['status'] == 'pending'): ?>
                                                 <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                                    <a href="confirm.php?id=<?= $p['id']; ?>&status=confirmed"
+                                                    <a href="confrim.php?id=<?= $p['id']; ?>&status=confirmed"
                                                         class="btn btn-success btn-sm">
                                                         <i class="fa fa-check me-1"></i> Konfirmasi
                                                     </a>
-                                                    <a href="confirm.php?id=<?= $p['id']; ?>&status=rejected"
+                                                    <a href="confrim.php?id=<?= $p['id']; ?>&status=rejected"
                                                         class="btn btn-danger btn-sm">
                                                         <i class="fa fa-times me-1"></i> Tolak
                                                     </a>
@@ -97,6 +118,44 @@ $result = mysqli_query($conn, $query);
 
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        var table = $('#paymentTable').DataTable({
+            responsive: true,
+            lengthChange: true,
+            autoWidth: false,
+            pageLength: 10,
+            ordering: true,
+
+            buttons: [{
+                    extend: 'copy',
+                    className: 'btn btn-secondary btn-sm',
+                    title: 'Data Pembayaran Jamaah'
+                },
+                {
+                    extend: 'excel',
+                    className: 'btn btn-success btn-sm',
+                    title: 'Data Pembayaran Jamaah'
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn btn-danger btn-sm',
+                    title: 'Data Pembayaran Jamaah'
+                },
+                {
+                    extend: 'print',
+                    className: 'btn btn-info btn-sm',
+                    title: 'Data Pembayaran Jamaah'
+                }
+            ]
+        });
+
+        table.buttons().container()
+            .appendTo('#paymentTable_wrapper .col-md-6:eq(0)');
+    });
+</script>
+
+
 
 <!-- Style -->
 <style>

@@ -17,7 +17,7 @@ $qPaket = mysqli_query($conn, "SELECT * FROM paket ORDER BY nama ASC");
                     </div>
 
                     <div class="card-body p-4" style="background-color: #f9fafc;">
-                        <form action="../../actions/data_keberangkatan/store.php" method="POST">
+                        <form action="../../actions/data keberangkatan/store.php" method="POST">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Paket</label>
                                 <select name="paket_id" class="form-control" required>

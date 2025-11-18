@@ -41,7 +41,7 @@ include '../../partials/sidebar.php';
 
                             <div class="form-group mb-3">
                                 <label><strong>Harga</strong></label>
-                                <input type="number" name="harga" step="0.01" class="form-control" required>
+                                <input type="text" name="harga" step="0.01" class="form-control" required>
                             </div>
 
                             <div class="form-group mb-3">

@@ -14,8 +14,14 @@ if (!isset($_GET['id'])) {
 
 $id = intval($_GET['id']);
 
-// Ambil data paket berdasarkan id
-$q = mysqli_query($conn, "SELECT * FROM paket WHERE id = $id");
+// Ambil data paket + jadwal keberangkatan
+$q = mysqli_query($conn, "
+  SELECT p.*, k.departure_date, k.return_date
+  FROM paket p
+  LEFT JOIN keberangkatan k ON k.paket_id = p.id
+  WHERE p.id = $id
+  LIMIT 1
+");
 
 if (!$q) {
   die("Query gagal: " . mysqli_error($conn));
@@ -45,28 +51,51 @@ if (!$paket) {
             </div>
 
             <div class="card-body">
-              <div class="mb-3">
-                <h5><strong>Jenis:</strong> <?= htmlspecialchars(ucfirst($paket['jenis'])) ?></h5>
+
+              <!-- JENIS -->
+              <div class="info-box">
+                <span class="icon">👳‍♀️</span>
+                <strong>Jenis:</strong> <?= htmlspecialchars(ucfirst($paket['jenis'])) ?>
               </div>
-              <div class="mb-3">
-                <h5><strong>Durasi:</strong> <?= htmlspecialchars($paket['durasi_days']) ?> Hari</h5>
+
+              <!-- DURASI -->
+              <div class="info-box">
+                <span class="icon">⏳</span>
+                <strong>Durasi:</strong> <?= htmlspecialchars($paket['durasi_days']) ?> Hari
               </div>
-              <div class="mb-3">
-                <h5><strong>Harga:</strong> Rp <?= number_format($paket['harga'], 0, ',', '.') ?></h5>
+
+              <!-- KEBERANGKATAN -->
+              <div class="info-box">
+                <span class="icon">✈️</span>
+                <strong>Keberangkatan:</strong>
+                <?= !empty($paket['departure_date']) ? date('d M Y', strtotime($paket['departure_date'])) : '-' ?>
               </div>
-              <div class="mb-4">
+
+              <!-- KEPULANGAN -->
+              <div class="info-box">
+                <span class="icon">🏁</span>
+                <strong>Kepulangan:</strong>
+                <?= !empty($paket['return_date']) ? date('d M Y', strtotime($paket['return_date'])) : '-' ?>
+              </div>
+
+              <!-- HARGA -->
+              <div class="info-box">
+                <span class="icon">💰</span>
+                <strong>Harga:</strong> Rp<?= number_format($paket['harga'], 0, ',', '.') ?>
+              </div>
+
+              <!-- DESKRIPSI -->
+              <div class="mt-4">
                 <h5><strong>Deskripsi:</strong></h5>
-                <p class="text-muted" style="line-height:1.8;">
-                  <?= nl2br(htmlspecialchars($paket['deskripsi'])) ?>
-                </p>
+                <p class="text-muted"><?= nl2br(htmlspecialchars($paket['deskripsi'])) ?></p>
               </div>
+
             </div>
 
             <div class="text-center mt-4 d-flex justify-content-center gap-3">
               <a href="index1.php" class="btn btn-outline-secondary px-4 py-2">Kembali</a>
               <a href="belipaket.php?id=<?= $paket['id'] ?>" class="btn btn-warning px-4 py-2">Beli Sekarang</a>
             </div>
-
 
           </div>
         </div>
@@ -97,8 +126,20 @@ if (!$paket) {
       box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
     }
 
-    h5 {
-      color: #333;
+    .info-box {
+      background: #fdf8ee;
+      border-left: 6px solid #e6d398;
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+    }
+
+    .info-box .icon {
+      font-size: 20px;
+      margin-right: 10px;
     }
 
     .btn-outline-secondary {
@@ -129,5 +170,4 @@ if (!$paket) {
   </style>
 
 </body>
-
 </html>

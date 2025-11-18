@@ -66,7 +66,6 @@ $q = mysqli_query($conn, $sql);
               <th>Nama Jamaah</th>
               <th>Paket</th>
               <th>Metode</th>
-              <th>Jumlah (Rp)</th>
               <th>Tanggal Bayar</th>
               <th>Status</th>
             </tr>
@@ -78,7 +77,7 @@ $q = mysqli_query($conn, $sql);
                 <td><?= htmlspecialchars($row['nama_jamaah']) ?></td>
                 <td><?= htmlspecialchars($row['nama_paket']) ?> (Rp <?= number_format($row['paket_harga'],0,',','.') ?>)</td>
                 <td><?= strtoupper(htmlspecialchars($row['method'] ?? '-')) ?></td>
-                <td><?= number_format((float)($row['amount'] ?? 0), 0, ',', '.') ?></td>
+
                 <td><?= $row['payment_date'] ? date("d-m-Y H:i", strtotime($row['payment_date'])) : '-' ?></td>
                 <td>
                   <?php

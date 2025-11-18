@@ -185,7 +185,7 @@ if (session_status() == PHP_SESSION_NONE) {
         <ul class="dropdown-menu">
           <li><a href="index2.php">Data Jamaah</a></li>
           <li><a href="pembayaran.php">Data Pembayaran</a></li>
-          <li><a href="../backend/pages/pemberangkatan/index.php">Data Pemberangkatan</a></li>
+          <li><a href="pemberangkatan.php">Data Pemberangkatan</a></li>
         </ul>
       </li>
 

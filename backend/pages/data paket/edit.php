@@ -50,7 +50,7 @@ $data = $q->get_result()->fetch_assoc();
 
                             <div class="form-group mb-3">
                                 <label><strong>Harga</strong></label>
-                                <input type="number" name="harga" value="<?= htmlspecialchars($data['harga']) ?>" class="form-control" required>
+                                <input type="text" name="harga" value="<?= htmlspecialchars($data['harga']) ?>" class="form-control" required>
                             </div>
 
                             <div class="form-group mb-3">

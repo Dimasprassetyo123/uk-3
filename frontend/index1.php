@@ -3,8 +3,13 @@ session_start();
 include 'partials/header.php'; // Header + meta + fonts + bootstrap
 include '../config/connection.php';
 
-// Ambil semua paket dari database
-$q = mysqli_query($conn, "SELECT * FROM paket ORDER BY created_at DESC");
+// Ambil paket + jadwal keberangkatan + kepulangan
+$q = mysqli_query($conn, "
+  SELECT p.*, k.departure_date, k.return_date
+  FROM paket p
+  LEFT JOIN keberangkatan k ON k.paket_id = p.id
+  ORDER BY p.created_at DESC
+");
 ?>
 
 <body class="index-page">
@@ -42,9 +47,24 @@ $q = mysqli_query($conn, "SELECT * FROM paket ORDER BY created_at DESC");
                   <small><?= htmlspecialchars($paket['jenis']) ?></small>
                 </div>
                 <div class="package-body card-body d-flex flex-column">
+
                   <p class="mb-1"><strong>Kode:</strong> <?= htmlspecialchars($paket['kode']) ?></p>
                   <p class="mb-1"><strong>Durasi:</strong> <?= $paket['durasi_days'] ?> Hari</p>
+
+                  <!-- Jadwal Keberangkatan -->
+                  <p class="mb-1">
+                    <strong>Keberangkatan:</strong>
+                    <?= $paket['departure_date'] ? date('d M Y', strtotime($paket['departure_date'])) : 'Belum tersedia'; ?>
+                  </p>
+
+                  <!-- Jadwal Kepulangan -->
+                  <p class="mb-1">
+                    <strong>Kepulangan:</strong>
+                    <?= $paket['return_date'] ? date('d M Y', strtotime($paket['return_date'])) : 'Belum tersedia'; ?>
+                  </p>
+
                   <p class="mb-3"><strong>Harga:</strong> Rp<?= number_format($paket['harga'], 0, ',', '.') ?></p>
+
                   <a href="detaileindex1.php?id=<?= $paket['id'] ?>" class="btn btn-primary mt-auto rounded-pill">Lihat Detail</a>
                 </div>
               </div>
@@ -68,16 +88,15 @@ $q = mysqli_query($conn, "SELECT * FROM paket ORDER BY created_at DESC");
 
 <?php include 'partials/script.php'; ?>
 
-<!-- CSS Internal -->
 <style>
 body.index-page {
   font-family: 'Poppins', sans-serif;
   background: #f9f9f9;
   margin: 0;
-  padding-top: 90px; /* space for fixed header */
+  padding-top: 90px;
 }
 
-/* Hero Section */
+/* Hero */
 .hero {
   min-height: 70vh;
   display: flex;
@@ -97,15 +116,12 @@ body.index-page {
   color: #f3f3f3ff;
 }
 
-/* Paket Perjalanan */
+/* Card */
 .package-card {
   background: #fff;
   border-radius: 20px;
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  transition: 0.3s;
 }
 
 .package-card:hover {
@@ -119,31 +135,12 @@ body.index-page {
 
 .package-header h5,
 .package-header small {
-  margin: 0;
   color: #fff;
 }
 
-.package-body {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
 .package-body p {
-  margin: 5px 0;
   font-size: 14.5px;
   color: #333;
-}
-
-/* Tombol Lihat Detail */
-.package-body .btn {
-  transition: all 0.3s ease;
-}
-
-.package-body .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(193,154,51,0.4);
 }
 
 /* Scroll Top */
@@ -156,30 +153,21 @@ body.index-page {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
   font-size: 24px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: all 0.3s;
 }
 
 #scroll-top:hover {
   background: #006400;
-  transform: translateY(-2px);
 }
 </style>
 
-<!-- Scroll Top JS -->
 <script>
 const scrollTopBtn = document.getElementById('scroll-top');
 window.addEventListener('scroll', () => {
-  if(window.scrollY > 200){
-    scrollTopBtn.style.display = 'flex';
-  } else {
-    scrollTopBtn.style.display = 'none';
-  }
+  scrollTopBtn.style.display = window.scrollY > 200 ? 'flex' : 'none';
 });
 scrollTopBtn.addEventListener('click', (e) => {
   e.preventDefault();
